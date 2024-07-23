@@ -20,13 +20,37 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
-  packageStart: () => packageStart
+  default: () => LevelDB
 });
 module.exports = __toCommonJS(src_exports);
-async function packageStart() {
-  return "PACKAGE_START";
-}
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  packageStart
-});
+var import_memory_level = require("memory-level");
+var ENCODING_OPTS = { keyEncoding: "buffer", valueEncoding: "buffer" };
+var LevelDB = class {
+  db;
+  constructor(db) {
+    this.db = db ?? new import_memory_level.MemoryLevel(ENCODING_OPTS);
+  }
+  async get(key) {
+    let value = null;
+    try {
+      value = await this.db.get(key, ENCODING_OPTS);
+    } catch (error) {
+      if (error.notFound !== true) {
+        throw error;
+      }
+    }
+    return value;
+  }
+  async put(key, value) {
+    await this.db.put(key, value, ENCODING_OPTS);
+  }
+  async del(key) {
+    await this.db.del(key, ENCODING_OPTS);
+  }
+  async batch(ops) {
+    await this.db.batch(ops, ENCODING_OPTS);
+  }
+  async close() {
+    await this.db.close();
+  }
+};
