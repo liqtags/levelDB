@@ -1,9 +1,21 @@
-import { packageStart } from "..";
+import LevelDB from "..";
 
 jest.spyOn(global.console, "log");
 
-describe("@liqtags/utils", () => {
-  it("adds two numbers", () => {
-    expect(packageStart()).toBe("PACKAGE_START");
+beforeEach(() => {
+  // do some stuff before each test case runs
+});
+
+describe("LevelDB", () => {
+  it("should create a new instance of LevelDB", () => {
+    const db = new LevelDB();
+    expect(db).toBeInstanceOf(LevelDB);
+  }); 
+
+  it("should add data to the database", async () => {
+    const db = new LevelDB();
+    await db.put("key", "value");
+    const value = await db.get("key");
+    expect(value.toString()).toBe("value");
   });
 });

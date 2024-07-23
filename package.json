@@ -1,5 +1,5 @@
 {
-  "name": "@liqtags/packagestarter",
+  "name": "@liqtags/levelDB",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
@@ -29,5 +29,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "memory-level": "^1.0.0"
   }
 }
